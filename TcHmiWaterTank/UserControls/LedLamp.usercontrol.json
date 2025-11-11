@@ -1,0 +1,26 @@
+{
+  "parameters": [
+    {
+      "name": "data-tchmi-benable",
+      "displayName": "bEnable",
+      "allowSymbolExpressionsInObject": false,
+      "visible": true,
+      "type": "tchmi:general#/definitions/BOOL",
+      "category": "",
+      "description": "",
+      "defaultValue": false,
+      "defaultValueInternal": false,
+      "requiredOnCompile": false,
+      "readOnly": false,
+      "bindable": true,
+      "heritable": true,
+      "propertyName": "bEnable",
+      "propertySetterName": "setBEnable",
+      "propertyGetterName": "getBEnable",
+      "refTo": ""
+    }
+  ],
+  "virtualRights": [],
+  "$schema": "./../../UR_Example_20231018/Packages/Beckhoff.TwinCAT.HMI.Framework.12.760.54/runtimes/native1.12-tchmi/Schema/UserControlConfig.Schema.json",
+  "description": ""
+}

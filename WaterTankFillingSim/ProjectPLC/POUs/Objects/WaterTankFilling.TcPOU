@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="WaterTankFilling" Id="{6bc3bd89-2ad3-415d-8f59-322664583d9b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM WaterTankFilling
+VAR
+	fbTank			: FB_Tank;
+	fbPump			: FB_Pump;
+	fbDrainValve	: FB_DrainValve;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*EXECUTE FBs*)
+	fbPump.Execute();
+	fbDrainValve.Execute();
+	
+(*PUMP - UPDATE LEVEL UNTIL LEVEL HIGH*)
+	IF fbPump.bIsOn THEN
+		IF NOT fbTank.bLevelHigh THEN
+			fbTank.UpdateLevel(
+				rFlowRate 			:= fbPump.rFlowRate, 
+				rTimeStepSec		:= TO_REAL(TO_LREAL(_TaskInfo[GETCURTASKINDEXEX()].CycleTime) / 10_000_000));
+		ELSIF fbTank.bLevelHigh THEN
+			fbPump.Stop();
+		END_IF
+	END_IF
+
+(*DRAIN VALVE - UPDATE LEVEL UNTIL TANK EMPTY*)
+	IF fbDrainValve.bIsOn THEN
+		IF NOT fbTank.bIsEmpty THEN
+			fbTank.UpdateLevel(
+					rFlowRate 		:= fbDrainValve.rFlowRate,
+					rTimeStepSec	:= TO_REAL(TO_LREAL(_TaskInfo[GETCURTASKINDEXEX()].CycleTime) / 10_000_000));
+		ELSE
+			fbDrainValve.Stop();
+		END_IF
+	END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="WaterTankFilling">
+      <LineId Id="84" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="59" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

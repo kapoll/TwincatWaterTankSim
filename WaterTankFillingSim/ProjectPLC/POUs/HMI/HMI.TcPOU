@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="HMI" Id="{5e4af75d-dd4b-41ee-a9bf-a1c1abbb42b8}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM HMI
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*RESET SIMULATION*)
+	IF GVL_HMI.bButtonResetSimilation THEN
+		WaterTankFilling.fbTank.Reset();
+		GVL_HMI.bButtonResetSimilation	:= FALSE;
+	END_IF
+
+(*TANK*)
+	GVL_HMI.rTankMaxCapacity	:= WaterTankFilling.fbTank.rMaxCapacity;
+	GVL_HMI.rTankCurrentLevel	:= WaterTankFilling.fbTank.rCurrentLevel;
+
+(*LAMPS*)
+	GVL_HMI.bLampPumpIsOn		:= WaterTankFilling.fbPump.bIsOn;
+	GVL_HMI.bLampDrainValveIsOn	:= WaterTankFilling.fbDrainValve.bIsOn;
+	
+(*PUMP FLOW RATE*)
+	GVL_HMI.rPumpActualFlowRate	:= WaterTankFilling.fbPump.rFlowRate;
+	
+	IF GVL_HMI.bButtonActualizePumpFlowRate THEN
+		WaterTankFilling.fbPump.SetFlowRate(rRate := GVL_HMI.rPumpNewFlowRate);
+		GVL_HMI.bButtonActualizePumpFlowRate	:= FALSE;
+	END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="HMI">
+      <LineId Id="20" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="6" Count="1" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="24" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

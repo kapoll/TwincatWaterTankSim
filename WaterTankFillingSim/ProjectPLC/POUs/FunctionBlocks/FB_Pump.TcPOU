@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Pump" Id="{b98365dc-24f0-47c3-9e64-858b2355d9b2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Pump
+VAR_INPUT
+	bStartCmd	: BOOL;
+	bStopCmd	: BOOL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_bIsOn		: BOOL;
+	_rFlowRate	: REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="bError" Id="{c756b756-88ce-408d-aa93-ded232701c24}">
+      <Declaration><![CDATA[PROPERTY bError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{600f7e5c-89b6-4434-b45a-59ac25a65c11}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[//ERROR STATE IF 'bStartCmd' IS ON AND PUMP IS NOT ON
+bError	:= bStartCmd AND NOT bIsOn;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{c58e52ff-cf32-4305-bb4a-b01c86457804}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="bIsOn" Id="{ea638808-ea05-4482-b1c7-c3f710b620fe}">
+      <Declaration><![CDATA[PROPERTY bIsOn : BOOL]]></Declaration>
+      <Get Name="Get" Id="{9c3d3d13-6a5e-4a2e-881b-d839e8aec501}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bIsOn	:= _bIsOn;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b158cd58-19c9-4679-84e8-8a82477d3962}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_bIsOn	:= bIsOn;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Execute" Id="{1d4f8a3a-cfbb-42c7-876e-a93d9f256b72}">
+      <Declaration><![CDATA[METHOD Execute : BOOL
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//CHECK ON STATE
+IF bStartCmd THEN
+	bIsOn		:= TRUE;
+ELSIF bStopCmd THEN
+	bIsOn		:= FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{6e55d4e2-b785-4b6d-8e8f-440e6e5bae7a}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//FLOW RATE NITIALIZATION
+rFlowRate	:= 50.0;		]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="rFlowRate" Id="{2c9952d7-7cf3-4e54-9da4-22409be8e6a2}">
+      <Declaration><![CDATA[PROPERTY rFlowRate : REAL]]></Declaration>
+      <Get Name="Get" Id="{3d432222-aa82-48b2-aeb6-7b00981993c3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[rFlowRate	:= _rFlowRate;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{dc5f821f-2ec7-4ae6-aec8-26503b318fe9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_rFlowRate	:= rFlowRate;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="SetFlowRate" Id="{111e02f2-6038-4a6c-9c9d-60237c808e50}">
+      <Declaration><![CDATA[METHOD SetFlowRate : BOOL
+VAR_INPUT
+	rRate	: REAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//SET RATE
+rFlowRate	:= rRate;				]]></ST>
+      </Implementation>
+    </Method>
+    <Action Name="Stop" Id="{04c11640-edd6-4d96-8d47-bee47abe1576}">
+      <Implementation>
+        <ST><![CDATA[//SET COMMANDS TO STOP
+bStartCmd	:= FALSE;
+bStopCmd	:= TRUE;]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="FB_Pump">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.bError.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.bError.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.bIsOn.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.bIsOn.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.Execute">
+      <LineId Id="19" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.FB_init">
+      <LineId Id="13" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.rFlowRate.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.rFlowRate.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.SetFlowRate">
+      <LineId Id="10" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Pump.Stop">
+      <LineId Id="3" Count="0" />
+      <LineId Id="1" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

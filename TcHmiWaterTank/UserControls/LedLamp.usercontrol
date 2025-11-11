@@ -1,0 +1,261 @@
+<div id="LedLamp" data-tchmi-type="TcHmi.Controls.System.TcHmiUserControl" data-tchmi-top="0" data-tchmi-left="0" data-tchmi-width="100" data-tchmi-height="100" data-tchmi-width-unit="%" data-tchmi-height-unit="%" data-tchmi-creator-viewport-width="500" data-tchmi-creator-viewport-height="500" data-tchmi-zindex="1">
+
+<div id="LampLed" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiEllipse" data-tchmi-height="85" data-tchmi-height-unit="%" data-tchmi-left="7.5" data-tchmi-left-unit="%" data-tchmi-top="7.5" data-tchmi-top-unit="%" data-tchmi-width="85" data-tchmi-width-unit="%" data-tchmi-stroke-thickness="1" data-tchmi-stroke-thickness-unit="%" data-tchmi-zindex="1">
+    
+<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
+[
+  {
+    "event": "%pp%bEnable%/pp%",
+    "actions": [
+      {
+        "objectType": "Condition",
+        "active": true,
+        "parts": [
+          {
+            "if": [
+              {
+                "compare1": {
+                  "objectType": "Symbol",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "symbolExpression": "%pp%bEnable%/pp%"
+                },
+                "compare2": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "value": true
+                },
+                "compareOperator": "==",
+                "logic": null
+              }
+            ],
+            "then": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctrl%LampLed::FillColor%/ctrl%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Color",
+                  "value": {
+                    "color": "rgba(107, 253, 0, 1)"
+                  }
+                },
+                "asyncWait": true
+              }
+            ]
+          },
+          {
+            "else": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctrl%LampLed::FillColor%/ctrl%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Color",
+                  "value": {
+                    "color": "rgba(45, 82, 18, 1)"
+                  }
+                },
+                "asyncWait": true
+              }
+            ]
+          }
+        ],
+        "asyncWait": true
+      }
+    ]
+  }
+]
+</script>
+
+</div>
+<div id="LampBackground" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiEllipse" data-tchmi-height="100" data-tchmi-height-unit="%" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-top="0" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="%" data-tchmi-zindex="0">
+
+<script data-tchmi-target-attribute="data-tchmi-fill-color" type="application/json">
+{
+  "angle": 87.0,
+  "stopPoints": [
+    {
+      "color": "rgba(60, 60, 60, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(60, 60, 60, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(27, 27, 27, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(9, 9, 9, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(35, 35, 35, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(152, 152, 152, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(103, 103, 103, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(24, 24, 24, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(24, 24, 24, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(12, 12, 12, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(8, 8, 8, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(22, 22, 22, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(14, 14, 14, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(4, 4, 4, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(2, 2, 2, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(23, 23, 23, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(22, 22, 22, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(95, 95, 95, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(44, 44, 44, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(42, 42, 42, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(66, 66, 66, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(184, 184, 184, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(187, 187, 187, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(206, 206, 206, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(181, 181, 181, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(180, 180, 180, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(181, 181, 181, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(188, 188, 188, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "14.22%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "14.44%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "19.47%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "20.13%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "31.29%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "37.64%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "46.17%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "59.74%"
+    },
+    {
+      "color": "rgba(234, 234, 234, 1)",
+      "stop": "85.34%"
+    },
+    {
+      "color": "rgba(214, 214, 214, 1)",
+      "stop": "93%"
+    }
+  ]
+}
+</script>
+</div>
+<div id="gradient" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiEllipse" data-tchmi-height="85" data-tchmi-height-unit="%" data-tchmi-left="7.5" data-tchmi-left-unit="%" data-tchmi-top="7.5" data-tchmi-top-unit="%" data-tchmi-width="85" data-tchmi-width-unit="%" data-tchmi-opacity="0.2" data-tchmi-zindex="2">
+
+<script data-tchmi-target-attribute="data-tchmi-fill-color" type="application/json">
+{
+  "angle": 88.0,
+  "stopPoints": [
+    {
+      "color": "rgba(0, 0, 0, 1)",
+      "stop": "0%"
+    },
+    {
+      "color": "rgba(255, 255, 255, 1)",
+      "stop": "100%"
+    }
+  ]
+}
+</script>
+</div>
+</div>

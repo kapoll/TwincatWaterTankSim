@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Tank" Id="{bd8d5336-68c0-445e-a07c-065a6d58a3d0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Tank
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_rCurrentLevel	: REAL;
+	_rMaxCapacity	: REAL;	
+	_bIsEmpty		: BOOL;
+
+	bAlarmNextCycle	: BOOL;		//ADDITIONAL VARIABLE TO STOP PUMP BEFORE OVERFLOWING
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="bIsEmpty" Id="{a33a96fc-6dea-4582-858a-ae788a215348}">
+      <Declaration><![CDATA[PROPERTY bIsEmpty : BOOL]]></Declaration>
+      <Get Name="Get" Id="{17dbde76-0a2c-40f4-9295-e769ba6dd2f5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[//EMPTY WHEN CURRENT LEVEL IS 0
+bIsEmpty	:= rCurrentLevel = 0.0;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{33671045-3fdc-4f96-9f86-c61d4b07067f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="bLevelHigh" Id="{88b91fe1-67e7-4349-b933-fd8b97a40b40}">
+      <Declaration><![CDATA[PROPERTY bLevelHigh : BOOL]]></Declaration>
+      <Get Name="Get" Id="{7e8217f0-9721-472b-89cc-03b5f2dea8fa}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[//LEVEL IS HIGH IF CURRENT LEVEL IS EQUAL TO TANK MAX CAPACITY OR OVERFLOATING IN NEXT CYCLE
+bLevelHigh	:= (rCurrentLevel = rMaxCapacity) OR bAlarmNextCycle;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e5bfd86d-b43d-4a2a-82cd-4b0f2ad1891c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="bLevelLow" Id="{8e2ff05e-bebc-437f-890f-a483a51701c4}">
+      <Declaration><![CDATA[PROPERTY bLevelLow : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d379d92f-ee9f-4411-a72f-eb46c5bf4274}">
+        <Declaration><![CDATA[VAR
+END_VAR
+VAR CONSTANT
+	LOW_LVL_TRESHOLD		: REAL := 1.0;		//LITER
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bLevelLow	:= rCurrentLevel < LOW_LVL_TRESHOLD;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{dca4beac-d453-4225-9d1e-d8caa9bd112f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="FB_init" Id="{b31aa727-c80d-4011-bcac-dcd4f8893590}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//INITIALIZE TANK MAX CAPACITY
+rMaxCapacity	:= 1000;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="rCurrentLevel" Id="{4ded2a91-2be9-4894-abd6-2aa0b71038e1}">
+      <Declaration><![CDATA[PROPERTY rCurrentLevel : REAL]]></Declaration>
+      <Get Name="Get" Id="{a201ff39-d994-43d8-8d7b-e66f1691022e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[rCurrentLevel	:= _rCurrentLevel;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b2586ac1-cbaa-4841-b880-7e084f102cf1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_rCurrentLevel	:= rCurrentLevel;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Reset" Id="{e8edc8f3-e863-44e6-a1f9-389c830a11c2}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//SET CURRENT TANK LEVEL TO 0
+rCurrentLevel		:= 0.0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="rMaxCapacity" Id="{5a210318-22fb-4956-a99b-2203242e72f9}">
+      <Declaration><![CDATA[PROPERTY rMaxCapacity : REAL]]></Declaration>
+      <Get Name="Get" Id="{467db33c-1768-42b0-9229-bcb9847f14db}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[rMaxCapacity	:= _rMaxCapacity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b833c552-a9fc-4e86-bff6-6a18911e7707}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_rMaxCapacity	:= rMaxCapacity;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="SetCapacity" Id="{bdd53ec9-e7e3-4b3e-ab54-efe4e67e1e89}">
+      <Declaration><![CDATA[METHOD SetCapacity : BOOL
+VAR_INPUT
+	rCapacity		: REAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//SET CAPACITY
+rMaxCapacity	:= rCapacity;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateLevel" Id="{7e8cdd2d-27e8-480c-8d35-a624e933cd0d}">
+      <Declaration><![CDATA[METHOD UpdateLevel : BOOL
+VAR_INPUT
+	rFlowRate		: REAL;
+	rTimeStepSec	: REAL;
+END_VAR
+VAR
+	rCyclicLvlChange	: REAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[(*1. CALCULATE NEW LEVEL*)
+	rCyclicLvlChange	:= rFlowRate * rTimeStepSec;
+	rCurrentLevel		:= rCurrentLevel + rCyclicLvlChange;
+
+(*2. STOP IF OVERFLOWING IN NEXT CYCLE*)
+	IF rCurrentLevel + rCyclicLvlChange > rMaxCapacity THEN
+		bAlarmNextCycle		:= TRUE;
+	ELSE
+		bAlarmNextCycle		:= FALSE;
+	END_IF
+	
+(*3. EMPTYING*)
+	IF rCurrentLevel < 0 THEN
+		Reset();
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Tank">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.bIsEmpty.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.bIsEmpty.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.bLevelHigh.Get">
+      <LineId Id="5" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.bLevelHigh.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.bLevelLow.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.bLevelLow.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.FB_init">
+      <LineId Id="13" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.rCurrentLevel.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.rCurrentLevel.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.Reset">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.rMaxCapacity.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.rMaxCapacity.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.SetCapacity">
+      <LineId Id="10" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Tank.UpdateLevel">
+      <LineId Id="51" Count="5" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="58" Count="3" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="64" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
